@@ -1,0 +1,33 @@
+<div>
+    @if(this.user && this.session){
+    <h1>Ajouter Jeu</h1>
+    <form [formGroup]="JeuForm" (ngSubmit)="AjouterJeu()">
+        <label>Nom:</label>
+        <input type="text" formControlName="name">
+        <br>
+
+        <label>Editeur:</label>
+        <input type="text" formControlName="editeur">
+        <br>
+
+        <label>Etat:</label>
+        <select formControlName="etat" required>
+            <option value="" disabled selected>Choisissez un état</option>
+            <option value="parfait">Parfait</option>
+            <option value="bon">Bon</option>
+            <option value="mauvais">Mauvais</option>
+        </select>
+        <br>
+
+        <label>Prix:</label>
+        <input type="text" formControlName="prix">
+        <br>
+
+        <button type="submit" [disabled]="!JeuForm.valid">Ajouter le jeu</button>
+    </form>
+    } @else if(this.user){
+    <p>Veuillez choisir une session</p>
+    } @else {
+        <p>Veuillez vous connecter</p>
+    }
+</div>

@@ -1,0 +1,29 @@
+<div>
+  @if(this.user && this.sessionChose){
+  @if(this.vendeur){
+  <h3>Détails du Vendeur</h3>
+  <p><strong>Nom :</strong> {{ vendeur.name }}</p>
+  <p><strong>Prénom :</strong> {{ vendeur.firstname }}</p>
+  <p><strong>Email :</strong> {{ vendeur.email }}</p>
+  <p><strong>Téléphone :</strong> {{ vendeur.phone }}</p>
+  <p><strong>Frais à payer :</strong> {{ vendeur.fraisApayer }}</p>
+  @if(vendeur.fraisApayer){
+    <button (click)="payerFrais()">Payer frais</button>
+  }
+  <p><strong>Gains :</strong> {{ vendeur.gain }}</p>
+  @if(vendeur.gain){
+    <button (click)="recupererGain()">Recuperer gain</button>
+  }
+  <p><strong>Nombre de jeux en vente :</strong> {{ totalJeuxVente }}</p>
+  <p><strong>Nombre de jeux vendus :</strong> {{ totalJeuxVendu }}</p>
+  <p><strong>Nombre de jeux total :</strong> {{ totalJeux }}</p>
+  }@else {
+  <p>Il n'y a aucun vendeur</p>
+  }
+  } @else if(this.user){
+    <p>Veuillez choisir une session</p>
+  }
+  @else {
+  <p>Veuillez vous connecter</p>
+  }
+</div>

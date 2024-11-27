@@ -1,0 +1,22 @@
+<div>
+   @if(this.session && this.user){
+    <h1>Ajouter Jeu à acheter</h1>
+    <form [formGroup]="JeuForm" (ngSubmit)="AjouterJeuAacheterListe()">
+        <label>Id:</label>
+        <input type="text" formControlName="id">
+        <br> 
+        <button type="submit" [disabled]="!JeuForm.valid">Ajouter le jeu à acheter</button>
+        <p>{{this.error}}</p>
+    </form>
+    <app-afficher-jeu [listeJeu]="listeJeuAacheter"></app-afficher-jeu>
+
+    <p>Total : {{this.total}} euros</p>
+
+    <button (click)="finaliserAchat()">Le client a regler le total</button>
+   } @else if(this.user) {
+    <p>Veuillez choisir une session</p>
+   } @else {
+    <p>Veuilelz vous connecter</p>
+   }
+
+</div>

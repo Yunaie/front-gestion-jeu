@@ -1,0 +1,20 @@
+<div>
+  @if(this.user && this.sessionChose){
+  <ul>
+    @for(jeu of this.listeJeu; track $index){
+    <li>
+      <p><strong>Nom :</strong> {{ jeu.name }}</p>
+      <p><strong>Éditeur :</strong> {{ jeu.editeur }}</p>
+      <p><strong>État :</strong> {{ jeu.etat }}</p>
+      <p><strong>Prix :</strong> {{ jeu.prix }}</p>
+      <p><strong>Statut :</strong> {{ jeu.statut }}</p>
+    </li>
+    <br>
+    }
+  </ul>
+  } @else if(this.user){
+    <p>Vous devez choisir une session</p>
+  } @else {
+    <p>Veuillez vous connecter</p>
+  }
+</div>

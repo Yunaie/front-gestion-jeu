@@ -1,0 +1,42 @@
+<div class="app-container"  >
+  @if(this.user && this.sessionChose) {
+  <header>
+    <h1> Bienvenue {{ user.name || 'Utilisateur' }}</h1>
+  </header>
+
+  <h2>Vous avez choisi la session {{sessionChose.name}} : {{sessionChose.dateDebut}} {{sessionChose.dateFin}}</h2>
+
+  <section>
+    <ul>
+      <li>
+        <button (click)="redirectToRegister()">Dépot</button>
+      </li>
+      <li>
+        <button (click)="redirectToAchat()">Achat</button>
+      </li>
+      <li>
+        <button (click)="redirectToListeJeux()">Liste Jeux</button>
+      </li>
+      <li>
+        <button (click)="redirectToLogin()">Infos Vendeur</button>
+      </li>
+      <li>
+        <button (click)="redirectToAchatInfos()">Infos Achats</button>
+      </li>
+      @if(this.isAdmin(this.user)) {
+      <li>
+        <button (click)="redirectToAdmin()">Admin</button>
+      </li>
+      }
+    </ul>
+  </section>
+  } @else if(!user) {
+  <p>Veuillez vous connecter pour accéder à votre tableau de bord.</p>
+  }
+  @else{
+  <p>Vous n'avez pas choisi de session, veuillez en créer une si il n'y en a pas</p>
+  <button> <a routerLink="/admin">Admin</a></button>
+
+  }
+</div>
+

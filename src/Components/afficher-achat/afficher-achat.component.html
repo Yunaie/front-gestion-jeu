@@ -1,0 +1,21 @@
+<div>
+  @if(this.session && this.user){
+  <h4>Liste des achats de la session : {{ this.session.name }}</h4>
+  <ul>
+    @for(achat of this.listeAchats; track $index){
+    <li>
+      <p><strong>Liste de jeux achetés :</strong> <app-afficher-jeu
+          [listeJeu]="this.achat.jeuAacheter"></app-afficher-jeu>
+      </p>
+      <p><strong>Total de l'achat</strong> {{ this.achat.total }}</p>
+      <p><strong>Date de l'achat :</strong> {{ achat.createdAt }}</p>
+    </li>
+    }
+  </ul>
+  } @else if(this.user){
+    <p>Veuillez choisir une session</p>
+  }
+  @else {
+    <p>Veuillez vous connecter</p>
+  }
+</div>

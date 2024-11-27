@@ -1,0 +1,28 @@
+<div>
+  @if(this.Admin){
+    <h1>Ajouter Session</h1>
+    <form [formGroup]="SessionForm" (ngSubmit)="AjouterSession()">
+        <label>Nom:</label>
+        <input type="text" formControlName="name" required>
+        <br>
+        
+        <label>dateDebut:</label>
+        <input type="date" formControlName="dateDebut" required>
+        <br>
+        <label>dateFin:</label>
+        <input type="date" formControlName="dateFin" required>
+        <br>
+        <label>frais en %:</label>
+        <input type="text" formControlName="frais" required>
+        <br>
+        <label>commissions en %:</label>
+        <input type="text" formControlName="commissionsPourcentages" required>
+        <br>
+        
+        <br>
+        
+        
+        <button type="submit" [disabled]="!SessionForm.valid">Ajouter la session</button>
+    </form>
+  }
+</div>

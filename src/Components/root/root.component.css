@@ -1,0 +1,72 @@
+/* Styles pour la sidebar */
+.sidebar {
+    height: 100%;
+    width: 250px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #2c3e50; /* Couleur de fond */
+    overflow-x: hidden; /* Masquer le débordement horizontal */
+    transition: 0.3s; /* Transition fluide */
+    padding-top: 20px;
+  }
+  
+  /* Style des liens dans la sidebar */
+  .sidebar a {
+    padding: 15px 20px;
+    text-decoration: none;
+    font-size: 18px;
+    color: white;
+    display: block;
+    transition: 0.3s;
+  }
+  
+  /* Effet au survol des liens */
+  .sidebar a:hover {
+    background-color: #34495e; /* Changement de couleur au survol */
+    color: #ecf0f1; /* Texte un peu plus clair au survol */
+  }
+  
+  /* Style pour le bouton de fermeture de la sidebar */
+  .sidebar .closebtn {
+    position: absolute;
+    top: 0;
+    right: 20px;
+    font-size: 25px;
+    margin-left: 50px;
+  }
+  
+  /* Contenu principal */
+  .main-content {
+    margin-left: 260px; /* Espace réservé pour la sidebar */
+    padding: 20px;
+    transition: margin-left 0.3s;
+  }
+  
+  /* Styles pour la sidebar dans des écrans plus petits */
+  @media screen and (max-width: 768px) {
+    .sidebar {
+      width: 100%; /* La sidebar occupe tout l'écran */
+      height: auto;
+      position: relative;
+    }
+    .sidebar a { float: left; }
+    .main-content { margin-left: 0; } /* Pas d'espacement supplémentaire */
+  }
+  /* Styles pour centrer le router-outlet et ajouter un fond */
+.centered-container {
+    display: flex;
+    justify-content: center; /* Centrage horizontal */
+    align-items: center; /* Centrage vertical */
+    height: 100vh; /* Occuper toute la hauteur de la fenêtre */
+    background-color: #f0f0f0; /* Fond gris clair */
+    padding: 20px; /* Espacement autour du contenu */
+    box-sizing: border-box; /* Inclure le padding dans la largeur totale */
+  }
+  
+  .router-content {
+    padding: 40px; /* Espacement interne du contenu */
+    border-radius: 8px; /* Coins arrondis */
+    text-align: center; /* Centrer le texte à l'intérieur */
+  }
+  

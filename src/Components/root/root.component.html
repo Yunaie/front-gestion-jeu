@@ -1,0 +1,24 @@
+<div>
+    <div class="sidebar">
+        @if(this.user) {
+        <nav>
+            <ul>
+                <li><a routerLink="accueilGestionnaire" routerLinkActive="active"
+                        ariaCurrentWhenActive="page">Accueil</a></li>
+                <li><a routerLink="dashboard" routerLinkActive="active">dashboard</a></li>
+                <li><a (click)="logout()">logout</a></li>
+                <li><a routerLink="app">Changer de session</a></li>
+            </ul>
+        </nav>
+        } @else {
+        <ul>
+            <li><a routerLink="login" routerLinkActive="active" ariaCurrentWhenActive="page">login</a></li>
+            <li><a routerLink="register" routerLinkActive="active">register</a></li>
+        </ul>
+        }
+    </div>
+    
+    <div class="router-content">
+        <router-outlet></router-outlet>
+    </div>
+</div>

@@ -1,0 +1,16 @@
+<div>
+    @if(this.Admin) {
+    @if(this.isAdmin(this.Admin)) {
+        @if(afficherFrom) {
+            <app-ajt-session [listeSession]="listeSession"></app-ajt-session>
+        } @else {
+            <button (click)="afficherForm()">Ajouter un form</button>
+        }
+        <app-afficher-session [Sessions]="listeSession"></app-afficher-session>
+    } @else {
+        <p>Vous n'êtes pas admin</p>
+    }
+    } @else {
+    <p>Vous devez être connecté</p>
+    }
+</div>

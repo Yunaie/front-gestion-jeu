@@ -1,0 +1,21 @@
+<div>
+  @if(this.session && this.user) {
+  <h1>Login Vendeur</h1>
+  <h2>Vous avez choisi la session {{session.name}} : {{session.dateDebut}} {{session.dateFin}}</h2>
+
+  <form [formGroup]="loginForm" (ngSubmit)="login()">
+    <label>Email:</label>
+    <input type="email" formControlName="email">
+    <br>
+    <label>Telephone:</label>
+    <input type="text" formControlName="phone">
+
+    <br>
+    <button type="submit" [disabled]="!loginForm.valid">Login Vendeur</button>
+  </form>
+  } @else if(this.user) {
+  <p> Vous devez choisir une session</p>
+  } @else {
+    <p>Vous devez vous connecter</p>
+  }
+</div>

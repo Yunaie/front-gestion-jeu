@@ -1,3 +1,30 @@
 import { Routes } from '@angular/router';
+import { LoginComponent } from '../Components/login/login.component';
+import { RegisterComponent } from '../Components/register/register.component';
+import { DashboardComponent } from '../Components/dashboard/dashboard.component';
+import { AppComponent } from './app.component';
+import { DepotComponent } from '../Components/depot/depot.component';
+import { AchatComponent } from '../Components/ajouter-achat/ajouter-achat.component';
+import { EnregistrerVendeurComponent } from '../Components/register-vendeur/register-vendeur.component';
+import { LoginVendeurComponent } from '../Components/login-vendeur/login-vendeur.component';
+import { InfoVendeurComponent } from '../Components/info-vendeur/info-vendeur.component';
+import { AdminComponent } from '../Components/admin/admin.component';
+import { AccueilUserComponent } from '../Components/accueil-user/accueil-user.component';
+import { AfficherAchatComponent } from '../Components/afficher-achat/afficher-achat.component';
+import { ListeJeuxComponent } from '../Components/liste-jeux/liste-jeux.component';
 
-export const routes: Routes = [];
+export const routes: Routes = [
+    {path:"app", component:AppComponent},
+    {path: 'login',component:LoginComponent},
+    {path: 'register',component:RegisterComponent},
+    {path: 'dashboard',component:DashboardComponent},
+    {path: 'depot', component:DepotComponent},
+    {path: 'registerVendeur', component:EnregistrerVendeurComponent},
+    {path: 'achat', component:AchatComponent},
+    {path:'loginVendeur',component:LoginVendeurComponent},
+    {path:'infosVendeur', component:InfoVendeurComponent},
+    {path: 'admin', component:AdminComponent},
+    {path:'accueilGestionnaire',component:AccueilUserComponent},
+    {path:'afficherAchat', component:AfficherAchatComponent},
+    {path:'ListeJeux',component:ListeJeuxComponent}
+];

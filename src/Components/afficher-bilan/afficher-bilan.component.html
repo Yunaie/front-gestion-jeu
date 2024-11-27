@@ -1,0 +1,19 @@
+<div>
+    @if(this.session) {
+    @if(this.user){
+    @if(this.vendeur){
+    <h2>Bilan financier de {{ vendeur.name }} {{ vendeur.firstname }}</h2>
+
+    <p><strong>Gains totaux:</strong> {{ vendeur.totalGain }} €</p>
+    <p><strong>Total des frais:</strong> {{ vendeur.totalFrais }} €</p>
+    <p><strong>Gains non récupérés:</strong> {{ vendeur.gain }} €</p>
+
+    <p><strong>Frais à payer:</strong> {{ vendeur.fraisApayer }} €</p>
+
+    <p><strong>Solde final:</strong> {{ calculerSoldeFinalVendeur(vendeur.totalGain, vendeur.totalFrais) }} €</p>
+
+    }
+    }
+    }
+
+</div>
