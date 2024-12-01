@@ -15,7 +15,7 @@ import { User } from '../../Models/User';
 })
 export class AfficherSessionComponent implements OnInit {
 
-  @Input() public Sessions: Session[] = [];
+  @Input() public Session: Session | null = null;
   errorMessage: string = "";
   private editingSessions: { [id: string]: boolean } = {};
   user!: User | null;
@@ -30,13 +30,6 @@ export class AfficherSessionComponent implements OnInit {
         });
       }
     });
-    this.sessionService.getAllSessions().subscribe(Sessions => {
-      this.Sessions = Sessions;
-      console.log('Sessions récupérées:', this.Sessions);
-    });
-  }
-
-  redirectToSessionPage(){
     
   }
 
