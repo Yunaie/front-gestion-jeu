@@ -12,6 +12,7 @@ import { AdminComponent } from '../Components/admin/admin.component';
 import { AccueilUserComponent } from '../Components/accueil-user/accueil-user.component';
 import { AfficherAchatComponent } from '../Components/afficher-achat/afficher-achat.component';
 import { ListeJeuxComponent } from '../Components/liste-jeux/liste-jeux.component';
+import { ModifierSessionComponent } from '../Components/modifier-session/modifier-session.component';
 
 export const routes: Routes = [
     {path:"app", component:AppComponent},
@@ -26,5 +27,8 @@ export const routes: Routes = [
     {path: 'admin', component:AdminComponent},
     {path:'accueilGestionnaire',component:AccueilUserComponent},
     {path:'afficherAchat', component:AfficherAchatComponent},
-    {path:'ListeJeux',component:ListeJeuxComponent}
+    {path:'ListeJeux',component:ListeJeuxComponent},
+    {path:'modifierSession',component:ModifierSessionComponent}
+
+    
 ];

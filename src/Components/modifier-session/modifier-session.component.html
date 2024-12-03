@@ -1,42 +1,35 @@
 <div>
   @if(this.user) {
   @if(this.isAdmin(this.user)) {
-  <ul>
-    <li *ngFor="let session of Sessions">
+    @if(this.session){
       <div>
-
         <p><strong>Nom :</strong>
           <span *ngIf="!isFieldEditable(session, 'name')">{{ session.name }}</span>
           <input *ngIf="isFieldEditable(session, 'name')" [(ngModel)]="session.name" />
         </p>
-
+    
         <p><strong>Date début :</strong>
           <span *ngIf="!isFieldEditable(session, 'dateDebut')">{{ session.dateDebut }}</span>
           <input *ngIf="isFieldEditable(session, 'dateDebut')" type="date" [(ngModel)]="session.dateDebut" />
         </p>
-
+    
         <p><strong>Date Fin :</strong>
           <span *ngIf="!isFieldEditable(session, 'dateFin')">{{ session.dateFin }}</span>
           <input *ngIf="isFieldEditable(session, 'dateFin')" type="date" [(ngModel)]="session.dateFin" />
         </p>
-
+    
         <p><strong>Frais en % :</strong>
           <span *ngIf="!isFieldEditable(session, 'frais')">{{ session.frais }}</span>
           <input *ngIf="isFieldEditable(session, 'frais')" type="number" [(ngModel)]="session.frais" />
         </p>
-
+    
         <p><strong>Commissions en % :</strong>
           <span *ngIf="!isFieldEditable(session, 'commissionsPourcentages')">{{ session.commissionsPourcentages
             }}</span>
           <input *ngIf="isFieldEditable(session, 'commissionsPourcentages')" type="number"
             [(ngModel)]="session.commissionsPourcentages" />
         </p>
-
-        <p><strong>Total de la somme des commissions :</strong> {{session.TotalSommeComissions}}</p>
-
-        <p><strong>Total de la somme des frais :</strong> {{session.TotalSommeFrais}}</p>
-
-
+        
         <p><strong>Statut :</strong>
           <span *ngIf="!isFieldEditable(session, 'statut')">{{ session.statut }}</span>
           <select *ngIf="isFieldEditable(session, 'statut')" [(ngModel)]="session.statut">
@@ -44,17 +37,18 @@
             <option value="fermer">Fermé</option>
           </select>
         </p>
-
+    
         <button (click)="toggleEdit(session)">
           {{ isEditing(session) ? 'Arrêter la modification' : 'Éditer' }}
         </button>
-
+    
         <button (click)="saveChanges(session)" *ngIf="isEditing(session)">Enregistrer</button>
-
+    
         <p *ngIf="errorMessage">{{ errorMessage }}</p>
+
+        <app-afficher-bilan-session [sessionId] = "session.id"></app-afficher-bilan-session>
       </div>
-    </li>
-  </ul>
+    }
   } @else if ( !this.isAdmin(this.user)) {
   <p>Vous n'êtes pas admin</p>
   }}

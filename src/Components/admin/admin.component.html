@@ -1,14 +1,19 @@
 <div>
     @if(this.Admin) {
     @if(this.isAdmin(this.Admin)) {
-        @if(afficherFrom) {
-            <app-ajt-session [listeSession]="listeSession"></app-ajt-session>
-        } @else {
-            <button (click)="afficherForm()">Ajouter un form</button>
-        }
-        <app-afficher-session [Sessions]="listeSession"></app-afficher-session>
+    @if(afficherFrom) {
+    <app-ajt-session [listeSession]="listeSession"></app-ajt-session>
     } @else {
-        <p>Vous n'êtes pas admin</p>
+    <button (click)="afficherForm()">Ajouter un form</button>
+    }
+    @if(listeSession && listeSession.length > 0) {
+    <ul>
+        <li *ngFor="let session of listeSession">
+            <app-afficher-session [session]="session"></app-afficher-session>
+        </li>
+    </ul>}
+    } @else {
+    <p>Vous n'êtes pas admin</p>
     }
     } @else {
     <p>Vous devez être connecté</p>

@@ -5,21 +5,23 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UserService } from '../../Services/UserService';
 import { User } from '../../Models/User';
-
+import { ActivatedRoute } from '@angular/router';
+import { AfficherBilanSessionComponent } from '../afficher-bilan-session/afficher-bilan-session.component';
 @Component({
   selector: 'app-afficher-session',
   standalone: true,
-  imports: [CommonModule, FormsModule],
-  templateUrl: './afficher-session.component.html',
-  styleUrls: ['./afficher-session.component.css']
+  imports: [CommonModule, FormsModule,AfficherBilanSessionComponent],
+  templateUrl: './modifier-session.component.html',
+  styleUrls: ['./modifier-session.component.css']
 })
-export class AfficherSessionComponent implements OnInit {
+export class ModifierSessionComponent implements OnInit {
 
-  @Input() public Session: Session | null = null;
+  public sessionId: string | null = null;
+  session: Session | null = null;
   errorMessage: string = "";
   private editingSessions: { [id: string]: boolean } = {};
   user!: User | null;
-  constructor(public sessionService: SessionService, private userService: UserService) { }
+  constructor(public sessionService: SessionService, private userService: UserService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.userService.getFireBaseUser().subscribe(userData => {
@@ -30,7 +32,18 @@ export class AfficherSessionComponent implements OnInit {
         });
       }
     });
-    
+
+    this.route.queryParams.subscribe(params => {
+      this.sessionId = params['idsession'] || null;
+      console.log('ID de la session reçu :', this.sessionId);
+    });
+
+   if(this.sessionId){
+    this.sessionService.getSessionById(this.sessionId).subscribe(sessionData => {
+      this.session = sessionData || null;
+    })
+   } 
+
   }
 
 
@@ -67,8 +80,8 @@ export class AfficherSessionComponent implements OnInit {
       frais: session.frais,
       commissionsPourcentages: session.commissionsPourcentages,
       TotalSommeComissions: session.TotalSommeComissions,
-      TotalSommeFrais : session.TotalSommeFrais,
-      statut : session.statut
+      TotalSommeFrais: session.TotalSommeFrais,
+      statut: session.statut
     };
 
     console.log('Données envoyées à Firebase :', sessionData);

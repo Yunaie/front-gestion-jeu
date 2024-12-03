@@ -38,6 +38,10 @@ export class AdminComponent implements OnInit {
     });
 
     this.session = this.sessionService.getCurrentSession();
+
+    this.sessionService.getAllSessions().subscribe(Sessions => {
+      this.listeSession = Sessions;
+    });
   }
 
   isAdmin(user: User): boolean {

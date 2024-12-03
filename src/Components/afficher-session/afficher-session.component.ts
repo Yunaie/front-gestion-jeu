@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UserService } from '../../Services/UserService';
 import { User } from '../../Models/User';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-afficher-session',
@@ -15,11 +16,11 @@ import { User } from '../../Models/User';
 })
 export class AfficherSessionComponent implements OnInit {
 
-  @Input() public Sessions: Session[] = [];
+  @Input() public session: Session | null = null;
   errorMessage: string = "";
   private editingSessions: { [id: string]: boolean } = {};
   user!: User | null;
-  constructor(public sessionService: SessionService, private userService: UserService) { }
+  constructor( private router: Router,public sessionService: SessionService, private userService: UserService) { }
 
   ngOnInit() {
     this.userService.getFireBaseUser().subscribe(userData => {
@@ -30,15 +31,18 @@ export class AfficherSessionComponent implements OnInit {
         });
       }
     });
-    this.sessionService.getAllSessions().subscribe(Sessions => {
-      this.Sessions = Sessions;
-      console.log('Sessions récupérées:', this.Sessions);
-    });
+  
   }
 
-  redirectToSessionPage(){
-    
+  redirectToSessionPage() {
+    if (this.session) {
+      this.router.navigate(['/modifierSession'], { queryParams: { idsession: this.session.id } });
+    } else {
+      console.error('L\'ID de la session est introuvable');
+      alert('Impossible de rediriger : aucune session sélectionnée.');
+    }
   }
+  
 
 
   isAdmin(user: User): boolean {
