@@ -2,7 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { JeuDeposeService } from '../../Services/JeuDeposeService';
 import { GameDeposit } from '../../Models/GameDeposit';
 import { AfficherJeuComponent } from '../afficher-jeu/afficher-jeu.component'; 
-import { FormsModule } from '@angular/forms'; // Ajouter cette ligne
+import { FormsModule } from '@angular/forms'; 
+import { User } from '../../Models/User';
+import { Session } from '../../Models/Session';
+import { SessionService } from '../../Services/SessionService';
+import { UserService } from '../../Services/UserService';
 
 @Component({
   selector: 'app-liste-jeux',
@@ -13,35 +17,43 @@ import { FormsModule } from '@angular/forms'; // Ajouter cette ligne
 })
 export class ListeJeuxComponent implements OnInit {
   games: GameDeposit[] = []; 
-  filteredGames: GameDeposit[] = []; // Liste filtrée des jeux
-  statutFilter: string = ''; // Filtre sur le statut (Vendu/Non Vendu)
-  minPrice: number = 0; // Filtre sur le prix minimum
-  maxPrice: number = 1000; // Filtre sur le prix maximum
+  filteredGames: GameDeposit[] = []; 
+  statutFilter: string = ''; 
+  minPrice: number = 0; 
+  maxPrice: number = 1000; 
+  session : Session | null = null;
+  user: User | null = null;
   
-  constructor(private jeuDeposeService: JeuDeposeService) {}
+  constructor(private jeuDeposeService: JeuDeposeService,private sessionService : SessionService, private userService: UserService, private gameService: JeuDeposeService) {}
 
   ngOnInit(): void {
-    // Récupérer tous les jeux au début
+    this.session = this.sessionService.getCurrentSession();
+
+    this.userService.getFireBaseUser().subscribe(userData => {
+      this.user = userData || null;
+      if (this.user) {
+        this.userService.getUserById(this.user.id).subscribe(userData => {
+          this.user = userData || null;
+        });
+      }
+    });
+    
     this.jeuDeposeService.getAllGames().subscribe((data: GameDeposit[]) => {
       this.games = data;
-      this.applyFilters(); // Appliquer les filtres après avoir récupéré les jeux
+      this.applyFilters();
     });
   }
 
-  // Applique les filtres sur les jeux
   applyFilters(): void {
     this.filteredGames = this.games.filter(game => {
-      // Filtre par statut
       const matchStatut = this.statutFilter ? game.statut === this.statutFilter : true;
       
-      // Filtre par prix
       const matchPrice = game.prix >= this.minPrice && game.prix <= this.maxPrice;
 
       return matchStatut && matchPrice;
     });
   }
 
-  // Cette méthode est appelée à chaque fois qu'un filtre change
   onFilterChange(): void {
     this.applyFilters();
   }

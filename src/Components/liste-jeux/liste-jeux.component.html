@@ -1,21 +1,28 @@
 <div>
+  @if(this.session && this.user) {
+  <div>
     <label for="statutFilter">Statut:</label>
     <select id="statutFilter" [(ngModel)]="statutFilter" (change)="onFilterChange()">
       <option value="">Tous</option>
       <option value="vendu">Vendu</option>
       <option value="en vente">En vente</option>
+      <option value='retiré de la vente'>Retiré de la vente</option>
     </select>
   </div>
-  
+
   <div>
     <label for="minPrice">Prix minimum:</label>
     <input id="minPrice" type="number" [(ngModel)]="minPrice" (input)="onFilterChange()" />
   </div>
-  
+
   <div>
     <label for="maxPrice">Prix maximum:</label>
     <input id="maxPrice" type="number" [(ngModel)]="maxPrice" (input)="onFilterChange()" />
   </div>
-  
   <app-afficher-jeu [listeJeu]="filteredGames"></app-afficher-jeu>
-  
+  } @else if(this.user) {
+  <p>Vous devez choisir une session</p>
+  } @else{
+  <p>Vous devez vous connecter</p>
+  }
+</div>

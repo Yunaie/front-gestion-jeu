@@ -1,5 +1,5 @@
 <div>
-  @if(this.user && this.sessionChose){
+  @if(this.user && this.sessionChose && this.vendeur){
   <ul>
     @for(jeu of this.listeJeu; track $index){
     <li>
@@ -9,6 +9,9 @@
       <p><strong>État :</strong> {{ jeu.etat }}</p>
       <p><strong>Prix :</strong> {{ jeu.prix }}</p>
       <p><strong>Statut :</strong> {{ jeu.statut }}</p>
+      @if(jeu.statut == 'en vente') {
+        <button (click)="EnleverJeuVente(jeu.id)">Enlever le jeu de la vente</button>
+      }
     </li>
     <br>
     }

@@ -47,6 +47,12 @@ export class AjouterJeuComponent implements OnInit {
       editeur: new FormControl('', Validators.required),
       etat: new FormControl('', Validators.required),
       prix: new FormControl('', Validators.required),
+      remise: new FormControl('', [
+        Validators.required,  
+        Validators.min(0),   
+        Validators.max(100),  
+        Validators.pattern('^[0-9]*$') 
+      ])
     });
 
     this.userService.getFireBaseUser().subscribe(userData => {
@@ -65,6 +71,7 @@ export class AjouterJeuComponent implements OnInit {
       const editeur = this.JeuForm.get('editeur')?.value;
       const etat = this.JeuForm.get('etat')?.value;
       const prix = this.JeuForm.get('prix')?.value;
+      const remise = this.JeuForm.get('remise')?.value;
       const statut = StatutRoleGame.vente;
       const vendeurId = this.vendeur?.id;
       const sessionId = this.session!.id;
@@ -84,10 +91,11 @@ export class AjouterJeuComponent implements OnInit {
             this.jeuxMisAJour.emit(this.listeJeu);
 
             const nouveauxFrais = (this.session!.frais * prix) / 100;
+            const nouveauxFraisAvecRemise = nouveauxFrais - nouveauxFrais*(remise/100)
 
             if (vendeurId) {
 
-              const fraisMisAJourSession = this.session!.TotalSommeFrais + nouveauxFrais;
+              const fraisMisAJourSession = this.session!.TotalSommeFrais + nouveauxFraisAvecRemise;
 
               const sessionData: Session = {
                 ...this.session!,
@@ -106,14 +114,15 @@ export class AjouterJeuComponent implements OnInit {
 
               this.userService.getVendeurFrais(vendeurId).pipe(take(1)).subscribe(fraisExistants => {
                 console.log("les frais actuels du vendeur sont de "+fraisExistants);
-                const frais = fraisExistants + nouveauxFrais;
+                const frais = fraisExistants + nouveauxFraisAvecRemise;
                 this.userService.modifyFraisVendeur(vendeurId,frais)
               });
 
               
               this.userService.getVendeurTotalFrais(vendeurId).pipe(take(1)).subscribe(fraisTotauxExistants => {
 
-                const fraisTotalTotal = fraisTotauxExistants + nouveauxFrais;
+                const fraisTotalTotal = fraisTotauxExistants + nouveauxFraisAvecRemise
+                ;
 
 
                 this.userService.modifyTotalFraisVendeur(vendeurId, fraisTotalTotal);
@@ -134,15 +143,4 @@ export class AjouterJeuComponent implements OnInit {
     }
   }
 
-
-
-
-  private showTemporaryError(message: string, success: boolean = false) {
-    this.errorMessage = message;
-    setTimeout(() => this.errorMessage = null, 3000);
-
-    if (success) {
-      alert(message); // Affiche le message en cas de succès si demandé
-    }
-  }
 }

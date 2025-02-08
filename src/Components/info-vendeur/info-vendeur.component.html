@@ -2,14 +2,11 @@
    @if(this.session && this.vendeur && this.user) {
     <h2>Vous avez choisi la session {{session.name}} : {{session.dateDebut}} {{session.dateFin}}</h2>
     <app-afficher-vendeur [VendeurId]="vendeurId"></app-afficher-vendeur>
-    @if(this.vendeur.fraisApayer > 0) {
-      <button (click)="payerFrais()">Payer les frais ( le vendeur peut également payer plus tard )</button>
-    }
     <h4>Liste des Jeux appartenenant à {{vendeur.name}} {{vendeur.firstname}}</h4>
-    <app-afficher-jeu [listeJeu]="listeJeu"></app-afficher-jeu>
+    <app-afficher-jeu-vendeur [vendeurId]="vendeur.id" [listeJeu]="listeJeu"></app-afficher-jeu-vendeur>
     <br>
-    <p>Bilan</p>
     <app-afficher-bilan [vendeurId]="vendeurId"></app-afficher-bilan>
+    <button (click)="telechargerPDF()">Telecharger le bilan</button>
 
    } @else if(!this.vendeur){
     <p>Aucun vendeur n'a été trouvé</p>

@@ -7,6 +7,7 @@ import { ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet } fr
 import { SessionService } from '../../Services/SessionService';
 import { Session } from '../../Models/Session';
 import { User } from '../../Models/User';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-register-vendeur',
@@ -19,6 +20,7 @@ export class EnregistrerVendeurComponent implements OnInit {
   registerVendeur!: FormGroup;
   session: Session | null = null;
   user: User | null = null;
+  errorMessage: string = '';
 
   constructor(
     private sessionService: SessionService,
@@ -26,7 +28,7 @@ export class EnregistrerVendeurComponent implements OnInit {
     private auth: AuthService,
     private userService: UserService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit() {
 
@@ -49,28 +51,64 @@ export class EnregistrerVendeurComponent implements OnInit {
     this.session = this.sessionService.getCurrentSession();
   }
 
+
   async register() {
     if (this.registerVendeur.valid) {
       const { email, name, firstname, phone } = this.registerVendeur.value;
 
-      try {
-        const docRef = await this.userService.createVendeur(0,0,email, firstname, phone, name, 0,0);
-        const id = docRef.id;
-      console.log(id);
+      if (this.userService.validateEmail(email) && this.userService.verifierFormatNumero(phone)) {
 
-        this.router.navigate(['/depot'], { queryParams: { id } });
+        try {
+          console.log("📌 Début de la vérification des vendeurs...");
 
-      } catch (error) {
-        console.error('Erreur lors de la création du vendeur:', error);
+          // Vérifier si l'email existe d'abord
+          this.userService.VendeurExistMail(email).subscribe(emailExists => {
+            console.log("📧 Email existe ?", emailExists);
+
+            // Ensuite, vérifier si le téléphone existe
+            this.userService.VendeurExistPhone(phone).subscribe(phoneExists => {
+              console.log("📞 Téléphone existe ?", phoneExists);
+
+              if (!emailExists && !phoneExists) {
+                console.log("✅ Aucun vendeur trouvé, création en cours...");
+                this.userService.createVendeur(0, 0, email, firstname, phone, name, 0, 0).then(docRef => {
+                  console.log("🎉 Vendeur créé avec succès, ID:", docRef.id);
+                  this.router.navigate(['/depot'], { queryParams: { id: docRef.id } });
+                }).catch(error => {
+                  console.error("❌ Erreur lors de la création du vendeur:", error);
+                });
+              } else {
+                console.log("⚠ Le vendeur existe déjà.");
+                if (emailExists && phoneExists) {
+                  this.errorMessage = "Un vendeur avec cet email et ce numéro de téléphone existe déjà.";
+                } else if (emailExists) {
+                  this.errorMessage = "Un vendeur avec cet email existe déjà.";
+                } else if (phoneExists) {
+                  this.errorMessage = "Un vendeur avec ce numéro de téléphone existe déjà.";
+                }
+              }
+            });
+          });
+
+        } catch (error) {
+          console.error('❌ Erreur lors de la création du vendeur:', error);
+        }
+      } else if (!this.userService.validateEmail(email)) {
+        console.log("Le format de l'email n'est pas bon");
+      } else if (!this.userService.verifierFormatNumero(phone)) {
+        console.log("Le format du numero de telephone n'est pas bon");
       }
-    } else {
-      console.error('Le formulaire n\'est pas valide');
+      else {
+        console.error('❌ Le formulaire n\'est pas valide');
+      }
     }
   }
+
+
 
   redirectToLogin() {
     this.router.navigate(['/loginVendeur'], { queryParams: { redirectRoute: '/depot' } });
   }
 
- 
+
 }

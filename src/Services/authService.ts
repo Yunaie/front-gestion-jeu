@@ -25,6 +25,7 @@ export class AuthService {
     try {
       const userCredential = await this.fireauth.createUserWithEmailAndPassword(email, password);
       const uid = userCredential.user?.uid || null;
+      console.log("luid est "+uid);
       this.router.navigate(['/login']);
       return uid;
     } catch (error) {

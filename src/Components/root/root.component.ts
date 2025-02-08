@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Renderer2, Input, OnInit } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../Services/authService';
 import { CommonModule } from '@angular/common';
@@ -18,8 +18,15 @@ import { SessionService } from '../../Services/SessionService';
 export class RootComponent implements OnInit {
 
     user: User | null = null;
+    darkMode = false;
 
-    constructor(private auth: AuthService, private userService: UserService, private sessionService: SessionService) { }
+    constructor(private renderer: Renderer2, private auth: AuthService, private userService: UserService, private sessionService: SessionService) {
+        const storedTheme = localStorage.getItem('theme');
+        if (storedTheme === 'dark') {
+            this.darkMode = true;
+            this.renderer.addClass(document.body, 'dark-theme');
+        }
+    }
 
     ngOnInit(): void {
         this.userService.getFireBaseUser().subscribe(userData => {
@@ -30,13 +37,23 @@ export class RootComponent implements OnInit {
                 });
             }
         });
+    }
 
+    toggleTheme() {
+        this.darkMode = !this.darkMode;
+
+        if (this.darkMode) {
+            this.renderer.addClass(document.body, 'dark-theme');
+            localStorage.setItem('theme', 'dark'); // 🔹 Sauvegarde du choix utilisateur
+        } else {
+            this.renderer.removeClass(document.body, 'dark-theme');
+            localStorage.setItem('theme', 'light');
+        }
     }
 
     logout() {
         this.auth.logout();
         this.sessionService.clearCurrentSession();
-
     }
 }
 

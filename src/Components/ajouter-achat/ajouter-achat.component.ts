@@ -15,6 +15,7 @@ import { User } from '../../Models/User';
 import { UserService } from '../../Services/UserService';
 import { Vendeur } from '../../Models/Vendeur';
 import { firstValueFrom } from 'rxjs';
+import { jsPDF } from "jspdf";
 
 
 @Component({
@@ -32,6 +33,11 @@ export class AchatComponent implements OnInit {
   error: string = "";
   user: User | null = null;
   vendeursGains: { vendeurId: string; gain: number }[] = [];
+  achatId: string = "";
+  achat: Achat | null = null;
+  private isPDFvalue: boolean = false;
+
+
 
 
   constructor(
@@ -39,7 +45,7 @@ export class AchatComponent implements OnInit {
     private router: Router,
     private gameService: JeuDeposeService,
     private achatService: AchatService,
-    private userService: UserService
+    private userService: UserService,
   ) { }
 
   ngOnInit() {
@@ -67,23 +73,27 @@ export class AchatComponent implements OnInit {
       const idJeu = this.JeuForm.get('id')?.value;
       this.gameService.getJeuById(idJeu).subscribe(game => {
         if (game) {
-          if (this.gameService.IsOnSale(game)) {
-            this.total += Number(game.prix);
-            this.listeJeuAacheter.push(game);
+          if (!this.listeJeuAacheter.some(jeu => jeu.id === game.id)) {
+            if (this.gameService.IsOnSale(game)) {
+              this.total += Number(game.prix);
+              this.listeJeuAacheter.push(game);
+              const gain = game.prix - (this.session!.commissionsPourcentages * game.prix) / 100;
+              const index = this.vendeursGains.findIndex(vendeur => vendeur.vendeurId === game.vendeurId);
 
-            const gain = game.prix - (this.session!.commissionsPourcentages * game.prix) / 100;
-            const index = this.vendeursGains.findIndex(vendeur => vendeur.vendeurId === game.vendeurId);
-
-            if (index !== -1) {
-              this.vendeursGains[index].gain += gain;
+              if (index !== -1) {
+                this.vendeursGains[index].gain += gain;
+              } else {
+                this.vendeursGains.push({ vendeurId: game.vendeurId, gain });
+              }
             } else {
-              this.vendeursGains.push({ vendeurId: game.vendeurId, gain });
+              this.showErrorMessage("Ce jeu n'est pas en vente : ce jeu est " + game.statut);
             }
           } else {
-            this.showErrorMessage("Ce jeu n'est pas en vente : ce jeu est " + game.statut);
+            this.showErrorMessage("Le jeu a déjà été ajouté à la liste");
           }
         } else {
           console.error(`Jeu avec l'ID ${idJeu} introuvable.`);
+          this.showErrorMessage("L'id du jeu n'existe pas");
         }
       });
     }
@@ -121,16 +131,45 @@ export class AchatComponent implements OnInit {
     }
   }
 
+  IsPDF(value: boolean) {
+    this.isPDFvalue = value;
+    this.finaliserAchat();
+  }
+
+  async finaliserAchat() {
+    if (this.session && this.user) {
+      try {
+        const docRef = await this.achatService.createAchat(this.total, this.listeJeuAacheter, this.session!.id, this.user.id);
+
+        await this.changerStatutGame(this.listeJeuAacheter);
+        await this.changerTotalCommission();
+
+        if (this.isPDFvalue) {
+          const achat = await firstValueFrom(this.achatService.getAchatById(docRef.id));
+
+          if (achat) {
+            const pdfUrl = await this.achatService.genererPDFRecu(achat);
 
 
-  finaliserAchat() {
-    if (this.session) {
-      this.achatService.createAchat(this.total, this.listeJeuAacheter, this.session!.id).then(docRef => {
-        const id = docRef.id;
+            const AchatData = {
+              total: achat.total,
+              jeuAacheter: achat.jeuAacheter,
+              sessionId: achat.sessionId,
+              createdAt: achat.createdAt,
+              pdfRecu: pdfUrl,
+              userId: achat.userId,
+            };
 
-        this.changerStatutGame(this.listeJeuAacheter);
+            await this.achatService.updatePdfRecu(achat.id, AchatData);
+            console.log("✅ PDF mis à jour dans Firestore");
+            console.log("🚀 Ouverture du PDF...");
 
-        this.changerTotalCommission();
+            await this.achatService.ouvrirRecuPDF(pdfUrl);
+            console.log("✅ PDF ouvert");
+          } else {
+            console.error("❌ Achat non trouvé !");
+          }
+        }
 
         const updatePromises = this.vendeursGains.map(async vendeur => {
           try {
@@ -140,31 +179,28 @@ export class AchatComponent implements OnInit {
               const updatedTotalGain = existingVendeur.totalGain + vendeur.gain;
 
               await this.userService.modifyGainVendeur(vendeur.vendeurId, { gain: updatedGain });
-
               await this.userService.modifyTotalGainsVendeur(vendeur.vendeurId, { totalGain: updatedTotalGain });
 
-              console.log(`Gain mis à jour pour le vendeur ${vendeur.vendeurId}: ${updatedGain}`);
+              console.log(`✅ Gain mis à jour pour le vendeur ${vendeur.vendeurId}: ${updatedGain}`);
             } else {
-              console.error(`Vendeur avec l'ID ${vendeur.vendeurId} introuvable.`);
+              console.error(`❌ Vendeur ${vendeur.vendeurId} introuvable.`);
             }
           } catch (error) {
-            console.error(`Erreur lors de la mise à jour des gains pour le vendeur ${vendeur.vendeurId}:`, error);
+            console.error(`❌ Erreur lors de la mise à jour du vendeur ${vendeur.vendeurId}:`, error);
           }
         });
 
-        Promise.all(updatePromises)
-          .then(() => {
-            console.log('Tous les gains des vendeurs ont été mis à jour.');
-          })
-          .catch(error => {
-            console.error('Erreur lors de la mise à jour des gains des vendeurs :', error);
-          });
-      }).catch(error => {
-        console.error('Erreur lors de la création de l\'achat:', error);
-      });
+        await Promise.all(updatePromises);
+        console.log('✅ Tous les gains des vendeurs ont été mis à jour.');
+
+        this.router.navigate(['/accueilGestionnaire']);
+
+      } catch (error) {
+        console.error('❌ Erreur lors de la finalisation de l\'achat:', error);
+      }
     }
-    this.router.navigate(['/accueilGestionnaire']);
   }
+
 
 
 

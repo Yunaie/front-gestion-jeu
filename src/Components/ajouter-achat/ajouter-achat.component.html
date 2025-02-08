@@ -12,11 +12,12 @@
 
     <p>Total : {{this.total}} euros</p>
 
-    <button (click)="finaliserAchat()">Le client a regler le total</button>
+    <button (click)="IsPDF(false)">Le client a regler le total</button>
+    <button (click)="IsPDF(true)">Le client a regler le total et veut un recu</button>
    } @else if(this.user) {
     <p>Veuillez choisir une session</p>
    } @else {
-    <p>Veuilelz vous connecter</p>
+    <p>Veuillez vous connecter</p>
    }
 
 </div>
