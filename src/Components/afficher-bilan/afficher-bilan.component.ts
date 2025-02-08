@@ -40,7 +40,6 @@ export class BilanVendeurComponent implements OnInit {
     });
   }
 
-  // Calculer le solde final du vendeur
   calculerSoldeFinalVendeur(gain: number, fraisApayer: number): number {
     return gain - fraisApayer;
   }

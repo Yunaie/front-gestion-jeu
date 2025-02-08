@@ -61,11 +61,9 @@ export class EnregistrerVendeurComponent implements OnInit {
         try {
           console.log("📌 Début de la vérification des vendeurs...");
 
-          // Vérifier si l'email existe d'abord
           this.userService.VendeurExistMail(email).subscribe(emailExists => {
             console.log("📧 Email existe ?", emailExists);
 
-            // Ensuite, vérifier si le téléphone existe
             this.userService.VendeurExistPhone(phone).subscribe(phoneExists => {
               console.log("📞 Téléphone existe ?", phoneExists);
 

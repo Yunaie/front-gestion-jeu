@@ -44,7 +44,7 @@ export class RootComponent implements OnInit {
 
         if (this.darkMode) {
             this.renderer.addClass(document.body, 'dark-theme');
-            localStorage.setItem('theme', 'dark'); // 🔹 Sauvegarde du choix utilisateur
+            localStorage.setItem('theme', 'dark'); 
         } else {
             this.renderer.removeClass(document.body, 'dark-theme');
             localStorage.setItem('theme', 'light');

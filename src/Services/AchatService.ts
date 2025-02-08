@@ -91,14 +91,14 @@ export class AchatService {
                     const pdfUrl = doc.output("bloburl").toString();
                     console.log("✅ PDF généré :", pdfUrl);
 
-                    resolve(pdfUrl); // 🔹 Retourne l'URL du PDF
+                    resolve(pdfUrl); 
 
                 } else {
                     console.error("❌ Problème de récupération des données");
                     reject("Erreur de récupération des données");
                 }
-            }, error => reject(error)); // Gestion d'erreur si `getUserById()` échoue
-        }, error => reject(error)); // Gestion d'erreur si `getSessionById()` échoue
+            }, error => reject(error)); 
+        }, error => reject(error)); 
     });
 }
 
