@@ -20,6 +20,7 @@ export class Achat {
         this.jeuAacheter = jeuAacheter;
         this.sessionId = sessionId;
         this.createdAt = createdAt;
+        
     }
 
     

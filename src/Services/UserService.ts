@@ -11,6 +11,7 @@ import { SessionService } from './SessionService';
 import { jsPDF } from "jspdf";
 import { JeuDeposeService } from './JeuDeposeService';
 import { firstValueFrom } from 'rxjs';
+import { Acheteur } from '../Models/Acheteur';
 
 
 @Injectable({
@@ -19,7 +20,7 @@ import { firstValueFrom } from 'rxjs';
 export class UserService {
   constructor(private firestore: AngularFirestore, private JeuDeposeService: JeuDeposeService, private SessionService: SessionService, private afAuth: AngularFireAuth) { }
 
-//--------------------------- USER -------------------------------------
+  //--------------------------- USER -------------------------------------
 
 
   getFireBaseUser(): Observable<User | null> {
@@ -86,7 +87,7 @@ export class UserService {
 
 
 
-//--------------------------- VENDEUR -------------------------------------
+  //--------------------------- VENDEUR -------------------------------------
 
 
   modifyFraisVendeur(id: string, frais: number) {
@@ -189,7 +190,7 @@ export class UserService {
     );
   }
 
- 
+
   VendeurExistPhone(phone: string): Observable<boolean> {
     return this.firestore.collection<Vendeur>('UserVendeur', ref =>
       ref.where('phone', '==', phone).limit(1)
@@ -197,7 +198,7 @@ export class UserService {
       map(vendeurs => vendeurs.length > 0)
     );
   }
-  
+
 
   getVendeurFrais(vendeurId: string): Observable<number> {
     return this.firestore.collection<Vendeur>('UserVendeur').doc(vendeurId).valueChanges().pipe(
@@ -324,20 +325,98 @@ export class UserService {
 
 
   //--------------------------- ACHETEUR -------------------------------------
-  createAcheteur(name:string,firstname:string,email:string,phone:string): Promise<any> {
+  createAcheteur(name: string, firstname: string, email: string, phone: string, idticket: string): Promise<any> {
     const docRef = this.firestore.collection('UserAcheteur').doc();
     const id = docRef.ref.id;
 
     return docRef.set({
+      id: id, 
       name: name,
       firstname: firstname,
       email: email,
       phone: phone,
-      id: id,
+      ticket: idticket ? [idticket] : [], 
       createdAt: new Date()
     }).then(() => {
-      return { id };
+      return { id }; 
+    }).catch(error => {
+      console.error("❌ Erreur lors de la création de l'acheteur :", error);
+      throw error;
     });
+}
+
+
+  getAcheteurById(id: string): Observable<Acheteur | undefined> {
+    return this.firestore.collection<Acheteur>('UserAcheteur', ref =>
+      ref.where('id', '==', id)
+    ).valueChanges().pipe(
+      map(acheteurs => {
+        return acheteurs.length > 0 ? acheteurs[0] : undefined;
+      })
+    );
+  }
+  AcheteurExistMail(email: string): Observable<boolean> {
+    return this.firestore.collection<Acheteur>('UserAcheteur', ref =>
+      ref.where('email', '==', email).limit(1)
+    ).valueChanges().pipe(
+      map(acheteurs => acheteurs.length > 0)
+    );
   }
 
+
+  AcheteurExistPhone(phone: string): Observable<boolean> {
+    return this.firestore.collection<Acheteur>('UserAcheteur', ref =>
+      ref.where('phone', '==', phone).limit(1)
+    ).valueChanges().pipe(
+      map(acheteurs => acheteurs.length > 0)
+    );
+  }
+
+  getAcheteur(email: string, phone: string): Observable<Acheteur | undefined> {
+    return this.firestore.collection<Acheteur>('UserAcheteur', ref =>
+      ref.where('email', '==', email).where('phone', '==', phone)
+    ).valueChanges().pipe(
+      map(acheteurs => {
+        return acheteurs.length > 0 ? acheteurs[0] : undefined;
+      })
+    );
+  }
+  
+
+  updateAcheteur(id: string, idticket: string) {
+    this.getAcheteurById(id).subscribe(data => {
+      if (!data) {
+        console.error("Aucun acheteur trouvé avec cet ID.");
+        return;
+      }
+  
+      console.log("Acheteur récupéré :", data);
+  
+      const acheteur = { ...data, ticket: Array.isArray(data.ticket) ? [...data.ticket] : [] };
+  
+      if (!acheteur.ticket.includes(idticket)) {
+        console.log("Ajout du ticket...");
+        acheteur.ticket.push(idticket);
+        console.log("Ticket ajouté localement, mise à jour Firebase...");
+  
+        this.firestore.collection('UserAcheteur').doc(id).update({
+          ticket: acheteur.ticket
+        }).then(() => {
+          console.log("Ticket ajouté avec succès !");
+        }).catch(error => {
+          console.error("Erreur lors de la mise à jour :", error);
+        });
+      } else {
+        console.log("Ce ticket est déjà enregistré pour cet acheteur.");
+      }
+    });
+  }
+  
+
+
+
+
+
 }
+
+

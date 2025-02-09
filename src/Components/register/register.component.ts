@@ -43,13 +43,11 @@ export class RegisterComponent implements OnInit {
 
     try {
         if (!this.userService.validateEmail(email)) {
-            console.log("test7");
             this.error = "❌ L'email n'est pas au bon format.";
             return;
         }
 
         if (!this.userService.verifierFormatNumero(tel)) {
-            console.log("test8");
             this.error = "❌ Le numéro de téléphone n'est pas au bon format.";
             return;
         }
@@ -64,17 +62,14 @@ export class RegisterComponent implements OnInit {
 
         
         if (emailExists) {
-            console.log("test5");
             this.error = "❌ Cet email est déjà utilisé.";
             return;
         }
 
         if (phoneExists) {
-            console.log("test6");
             this.error = "❌ Ce numéro de téléphone est déjà utilisé.";
             return;
         }
-        console.log("sirine");
 
 
         const response = await this.auth.register(email, password);

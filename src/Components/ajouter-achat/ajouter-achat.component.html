@@ -13,7 +13,25 @@
     <p>Total : {{this.total}} euros</p>
 
     <button (click)="IsPDF(false)">Le client a regler le total</button>
-    <button (click)="IsPDF(true)">Le client a regler le total et veut un recu</button>
+
+    <form [formGroup]="AcheteurForm" (ngSubmit)="IsPDF(true)">
+        <label>Nom:</label>
+        <input type="text" formControlName="nom">
+        <br> 
+        <label>Prenom:</label>
+        <input type="text" formControlName="prenom">
+        <br> 
+        <label>Email:</label>
+        <input type="text" formControlName="email">
+        <br> 
+        <label>Telephone:</label>
+        <input type="text" formControlName="phone">
+        <br> 
+        <button type="submit" [disabled]="!AcheteurForm.valid">Le client a regler le total et veut un recu</button>
+        <p>{{this.error}}</p>
+    </form>
+
+    <!-- <button (click)="IsPDF(true)">Le client a regler le total et veut un recu</button> -->
    } @else if(this.user) {
     <p>Veuillez choisir une session</p>
    } @else {

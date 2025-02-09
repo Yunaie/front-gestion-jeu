@@ -1,5 +1,5 @@
 import { SessionService } from '../../Services/SessionService';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Session } from '../../Models/Session';
 import { Component, OnInit } from '@angular/core';
 import { Validators, ReactiveFormsModule } from '@angular/forms';
@@ -27,6 +27,7 @@ import { jsPDF } from "jspdf";
 })
 export class AchatComponent implements OnInit {
   JeuForm!: FormGroup;
+  AcheteurForm!: FormGroup;
   session: Session | null = null;
   listeJeuAacheter: GameDeposit[] = [];
   total: number = 0;
@@ -36,6 +37,7 @@ export class AchatComponent implements OnInit {
   achatId: string = "";
   achat: Achat | null = null;
   private isPDFvalue: boolean = false;
+  errorMessage: string = '';
 
 
 
@@ -46,13 +48,26 @@ export class AchatComponent implements OnInit {
     private gameService: JeuDeposeService,
     private achatService: AchatService,
     private userService: UserService,
+    private fb: FormBuilder,
   ) { }
 
   ngOnInit() {
     this.session = this.sessionService.getCurrentSession();
+
+
     this.JeuForm = new FormGroup({
       id: new FormControl('', Validators.required),
     });
+
+
+    this.AcheteurForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      prenom: ['', Validators.required],
+      nom: ['', Validators.required],
+      phone: ['', Validators.required]
+    });
+
+
     this.userService.getFireBaseUser().subscribe(userData => {
       this.user = userData || null;
       if (this.user) {
@@ -160,6 +175,22 @@ export class AchatComponent implements OnInit {
               userId: achat.userId,
             };
 
+
+            const { email, phone, prenom, nom } = this.AcheteurForm.value;
+
+            if (!this.AcheteurForm.valid) {
+              this.error = "❌ Veuillez remplir tous les champs requis pour l'acheteur.";
+              return;
+            }
+            console.log("la")
+            await this.creerAcheteur(pdfUrl, email, phone, nom, prenom);
+            console.log("la3")
+
+
+
+
+
+
             await this.achatService.updatePdfRecu(achat.id, AchatData);
             console.log("✅ PDF mis à jour dans Firestore");
             console.log("🚀 Ouverture du PDF...");
@@ -220,6 +251,56 @@ export class AchatComponent implements OnInit {
     }
   }
 
+  async creerAcheteur(pdfUrl: string, email: string, phone: string, nom: string, prenom: string) {
+    if (!this.userService.validateEmail(email)) {
+      this.error = "❌ L'email n'est pas au bon format.";
+      return;
+    }
+
+    if (!this.userService.verifierFormatNumero(phone)) {
+      this.error = "❌ Le numéro de téléphone n'est pas au bon format.";
+      return;
+    }
+
+    console.log("📌 Début de la vérification de l'acheteur...");
+
+    try {
+
+      const emailExists = await firstValueFrom(this.userService.AcheteurExistMail(email));
+
+      const phoneExists = await firstValueFrom(this.userService.AcheteurExistPhone(phone));
+
+
+      if (!emailExists && !phoneExists) {
+        console.log("dsfq")
+
+        console.log("🆕 Création d'un nouvel acheteur...");
+        const docRef = await this.userService.createAcheteur(nom, prenom, email, phone, pdfUrl);
+        const acheteurId = docRef.id;
+        console.log("✅ Acheteur créé avec ID :", acheteurId);
+
+      } else if (emailExists && phoneExists) {
+        console.log("ℹ️ L'acheteur existe déjà, mise à jour en cours...");
+
+        await this.userService.getAcheteur(email, phone).subscribe(data => {
+          const acheteur = data;
+          if (acheteur) {
+            console.log("id de lacheteur "+acheteur.id)
+            this.userService.updateAcheteur(acheteur.id, pdfUrl);
+            this.errorMessage = "Un vendeur avec cet email et ce numéro de téléphone existe déjà. Le ticket a été ajouté.";
+            console.log("✅ Mise à jour réussie !");
+          }
+        })
+        
+      } else {
+        console.log("⚠️ Conflit : soit l'email, soit le téléphone existe déjà.");
+        this.errorMessage = "Un vendeur avec cet email ou ce numéro de téléphone existe déjà.";
+      }
+    } catch (error) {
+      console.error("❌ Erreur lors de la vérification/ajout de l'acheteur :", error);
+      this.errorMessage = "Une erreur est survenue lors de la création de l'acheteur.";
+    }
+  }
 
 
 }
