@@ -4,8 +4,8 @@
   <ul>
     @for(achat of this.listeAchats; track $index){
     <li>
-      <p><strong>Liste de jeux achetés :</strong> <app-afficher-jeu
-          [listeJeu]="achat.jeuAacheter"></app-afficher-jeu>
+      <p><strong>Liste de jeux achetés :</strong>
+         <app-afficher-jeu-achat  [listeJeu]="achat.jeuAacheter"></app-afficher-jeu-achat>
       </p>
       <p><strong>Total de l'achat</strong> {{ achat.total }}</p>
       <p><strong>Date de l'achat :</strong> {{ achat.createdAt }}</p>

@@ -154,10 +154,11 @@ export class AchatComponent implements OnInit {
   async finaliserAchat() {
     if (this.session && this.user) {
       try {
-        const docRef = await this.achatService.createAchat(this.total, this.listeJeuAacheter, this.session!.id, this.user.id);
-
+       
         await this.changerStatutGame(this.listeJeuAacheter);
         await this.changerTotalCommission();
+        const docRef = await this.achatService.createAchat(this.total, this.listeJeuAacheter, this.session!.id, this.user.id);
+
 
         if (this.isPDFvalue) {
           const achat = await firstValueFrom(this.achatService.getAchatById(docRef.id));

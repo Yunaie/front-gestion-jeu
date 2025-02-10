@@ -6,7 +6,7 @@ import { SessionService } from '../../Services/SessionService';
 import { Session } from '../../Models/Session';
 import { Achat } from '../../Models/Achat';
 import { CommonModule } from '@angular/common';
-import { AfficherJeuComponent } from '../afficher-jeu/afficher-jeu.component';
+import { AfficherJeuAchatComponent } from '../afficher-jeu-achat/afficher-jeu-achat.component';
 import { Timestamp } from '@angular/fire/firestore';
 import { User } from '../../Models/User';
 import { UserService } from '../../Services/UserService';
@@ -14,7 +14,7 @@ import { UserService } from '../../Services/UserService';
 @Component({
   selector: 'app-afficher-achat',
   standalone: true,
-  imports: [CommonModule, AfficherJeuComponent],
+  imports: [CommonModule, AfficherJeuAchatComponent],
   templateUrl: './afficher-achat.component.html',
   styleUrl: './afficher-achat.component.css'
 })

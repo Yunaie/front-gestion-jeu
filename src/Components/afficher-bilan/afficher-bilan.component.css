@@ -1,52 +1,26 @@
 .my-component {
-  font-family: Arial, sans-serif;
-  width: 100%; 
-  max-width: 65%; 
-  margin: 0 auto;
-  text-align: center;
+  display: block;
+  margin: 10px auto;
+  align-items: center;
+  align-content: center;
+  padding: 10px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 550px;
 }
   
-  
+h2, h4 {
+  color: #1D8743;
+  margin-bottom: 15px;
+}
+
+h2 {
+  font-size: 20px;
+}
+
+h4 {
+  font-size: 18px;
+}
     
-    header h1 {
-      padding: 20px;
-      font-size: 36px;
-    }
-    
-    section h2 {
-      color: #333;
-      margin: 20px 0;
-    }
-    
-    ul {
-      list-style-type: none;
-      padding: 0;
-    }
-    
-    ul li {
-      margin: 20px 0;
-    }
-    
-    ul li button {
-      width: 100%;
-      padding: 20px;
-      font-size: 24px;
-      background-color:grey;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-    
-    ul li button:hover {
-      background-color: grey;
-    }
-    
-    ul li button:active {
-      background-color: grey;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      transform: scale(0.98);
-    }
-     
