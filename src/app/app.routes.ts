@@ -15,6 +15,7 @@ import { ListeJeuxComponent } from '../Components/liste-jeux/liste-jeux.componen
 import { ModifierSessionComponent } from '../Components/modifier-session/modifier-session.component';
 import { ChoixAdminComponent } from '../Components/choix-admin/choix-admin.component';
 import { AdminAdminComponent } from '../Components/admin-admin/admin-admin.component';
+import { LendingPageComponentComponent } from '../Components/lending-page-component/lending-page-component.component';
 
 export const routes: Routes = [
     {path:"app", component:AppComponent},
@@ -32,7 +33,8 @@ export const routes: Routes = [
     {path:'accueilGestionnaire',component:AccueilUserComponent},
     {path:'afficherAchat', component:AfficherAchatComponent},
     {path:'ListeJeux',component:ListeJeuxComponent},
-    {path:'modifierSession',component:ModifierSessionComponent}
+    {path:'modifierSession',component:ModifierSessionComponent},
+    {path:'',component:LendingPageComponentComponent}
 
     
 ];
