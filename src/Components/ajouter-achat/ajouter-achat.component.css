@@ -85,3 +85,8 @@ app-afficher-jeu {
   width: 100%;
   max-width: 550px;
 }
+
+app-afficher-jeu {
+  align-items: center;
+  align-content: center;
+}
