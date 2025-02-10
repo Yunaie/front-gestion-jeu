@@ -64,7 +64,7 @@ export class AchatComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       prenom: ['', Validators.required],
       nom: ['', Validators.required],
-      phone: ['', Validators.required]
+      phone: ['', [Validators.required, Validators.pattern(/^(0[67])\d{8}$/)]]
     });
 
 
@@ -182,9 +182,7 @@ export class AchatComponent implements OnInit {
               this.error = "❌ Veuillez remplir tous les champs requis pour l'acheteur.";
               return;
             }
-            console.log("la")
             await this.creerAcheteur(pdfUrl, email, phone, nom, prenom);
-            console.log("la3")
 
 
 

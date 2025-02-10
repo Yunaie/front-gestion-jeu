@@ -9,13 +9,13 @@ import { SessionService } from '../../Services/SessionService';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-admin',
+  selector: 'app-admin-session',
   standalone: true,
   imports: [AfficherSessionComponent, AjouterSessionComponent,CommonModule],
-  templateUrl: './admin.component.html',
-  styleUrl: './admin.component.css'
+  templateUrl: './admin-session.component.html',
+  styleUrl: './admin-session.component.css'
 })
-export class AdminComponent implements OnInit {
+export class AdminSessionComponent implements OnInit {
 
   Admin: User | null = null;
   listeSession: Session[] = [];

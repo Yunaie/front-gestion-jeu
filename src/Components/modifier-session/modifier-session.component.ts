@@ -46,6 +46,8 @@ export class ModifierSessionComponent implements OnInit {
 
   }
 
+  
+
 
   isAdmin(user: User): boolean {
     return this.userService.IsAdmin(user);

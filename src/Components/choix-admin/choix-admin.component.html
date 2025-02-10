@@ -1,0 +1,13 @@
+<div>
+    @if(this.sessionChose) {
+    @if(this.user){
+        <button (click)="printAdmin()"> Ajouter un admin</button>
+        <button (click)="printSession()"> Infos Sessions</button>
+
+    } @else {
+        <p>Vous devez être connecté</p>
+    }
+} @else {
+    <p>Vous devez choisir une session</p>
+}
+</div>>

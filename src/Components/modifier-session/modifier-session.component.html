@@ -47,6 +47,8 @@
         <p *ngIf="errorMessage">{{ errorMessage }}</p>
 
         <app-afficher-bilan-session [sessionId] = "session.id"></app-afficher-bilan-session>
+
+        
       </div>
     }
   } @else if ( !this.isAdmin(this.user)) {

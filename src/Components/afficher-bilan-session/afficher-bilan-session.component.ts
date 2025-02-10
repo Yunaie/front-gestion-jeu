@@ -8,6 +8,8 @@ import { SessionService } from '../../Services/SessionService';
 import { UserService } from '../../Services/UserService';
 import { User } from '../../Models/User';
 import { JeuDeposeService } from '../../Services/JeuDeposeService';
+import { firstValueFrom } from 'rxjs';
+
 
 @Component({
   selector: 'app-afficher-bilan-session',
@@ -23,13 +25,15 @@ export class AfficherBilanSessionComponent implements OnInit {
   session: Session | null = null;
   Currentsession: Session | null = null;
   user: User | null = null;
-  gain : number = 0 ;
-  jeuxVendus : number = 0 ;
-  totalJeux : number = 0;
-  jeuxEnVente : number = 0;
-  
+  gain: number = 0;
+  jeuxVendus: number = 0;
+  totalJeux: number = 0;
+  jeuxEnVente: number = 0;
+  wantsAdmin : boolean = false;
+  wantsSession : boolean = false;
 
-  constructor(private firestore: AngularFirestore, private sessionService: SessionService, private userService: UserService, private jeuDeposeService: JeuDeposeService) { }
+
+  constructor(private firestore: AngularFirestore, public sessionService: SessionService, private userService: UserService, private jeuDeposeService: JeuDeposeService) { }
 
   ngOnInit(): void {
     this.userService.getFireBaseUser().subscribe(userData => {
@@ -42,12 +46,12 @@ export class AfficherBilanSessionComponent implements OnInit {
     });
     this.Currentsession = this.sessionService.getCurrentSession();
 
-    if(this.sessionId) {
+    if (this.sessionId) {
       this.sessionService.getSessionById(this.sessionId).subscribe(sessionData => {
         this.session = sessionData || null;
-       if(this.session){
-        this.gain = this.session.TotalSommeComissions + this.session.TotalSommeFrais;
-       }
+        if (this.session) {
+          this.gain = this.session.TotalSommeComissions + this.session.TotalSommeFrais;
+        }
       })
       this.jeuDeposeService.getNombreTotalJeuxBySession(this.sessionId).subscribe(totalJeux => {
         this.totalJeux = totalJeux;
@@ -63,6 +67,41 @@ export class AfficherBilanSessionComponent implements OnInit {
     }
 
   }
+
+  printSession() {
+    this.wantsSession = true;
+  }
+
+  printAdmin() {
+    this.wantsAdmin = true;
+  }
+
+
+async dlPDF(sessionId: string) {
+    try {
+        const session = await firstValueFrom(this.sessionService.getSessionById(sessionId));
+
+        if (!session) {
+            console.error("❌ Session introuvable.");
+            return;
+        }
+
+        if (!this.sessionService.IsOpen(session)) {
+            console.error("❌ La session est fermée, il n'y a donc pas de bilan.");
+            return;
+        }
+
+        const pdfUrl = await this.sessionService.genererPDFRecu(session);
+
+        await this.sessionService.updatePdfRecu(session.id, pdfUrl);
+
+        this.sessionService.ouvrirRecuPDF(pdfUrl);
+
+    } catch (error) {
+        console.error("❌ Erreur lors du téléchargement du PDF :", error);
+    }
+}
+
 
 
 

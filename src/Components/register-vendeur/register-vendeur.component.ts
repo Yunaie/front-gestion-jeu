@@ -45,7 +45,7 @@ export class EnregistrerVendeurComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       firstname: ['', Validators.required],
       name: ['', Validators.required],
-      phone: ['', Validators.required]
+      phone: ['', [Validators.required, Validators.pattern(/^(0[67])\d{8}$/)]]
     });
 
     this.session = this.sessionService.getCurrentSession();
@@ -67,9 +67,9 @@ export class EnregistrerVendeurComponent implements OnInit {
             this.userService.VendeurExistPhone(phone).subscribe(phoneExists => {
               console.log("📞 Téléphone existe ?", phoneExists);
 
-              if (!emailExists && !phoneExists) {
+              if (!emailExists && !phoneExists && this.session) {
                 console.log("✅ Aucun vendeur trouvé, création en cours...");
-                this.userService.createVendeur(0, 0, email, firstname, phone, name, 0, 0).then(docRef => {
+                this.userService.createVendeur(0, 0, email,this.session.id, firstname, phone, name, 0, 0).then(docRef => {
                   console.log("🎉 Vendeur créé avec succès, ID:", docRef.id);
                   this.router.navigate(['/depot'], { queryParams: { id: docRef.id } });
                 }).catch(error => {

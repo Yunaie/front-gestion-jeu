@@ -10,8 +10,9 @@ export class Vendeur {
     public gain: number;
     public totalGain: number;
     public pdfRecu?: string;
+    public idSession: string;
 
-    constructor(name: string, fraisApayer: number, firstname: string, email: string, id: string, phone: string, gain: number) {
+    constructor(name: string, fraisApayer: number, idSession: string, firstname: string, email: string, id: string, phone: string, gain: number) {
         this.name = name;
         this.email = email;
         this.totalFrais = 0;
@@ -21,6 +22,7 @@ export class Vendeur {
         this.id = id;
         this.fraisApayer = fraisApayer;
         this.gain = 0;
+        this.idSession = idSession;
     }
 
 

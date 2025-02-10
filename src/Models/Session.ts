@@ -17,7 +17,8 @@ export class Session {
     public frais: number;
     public commissionsPourcentages: number;
     public TotalSommeComissions: number ; 
-    public TotalSommeFrais: number ; 
+    public TotalSommeFrais: number ;
+    public bilan? :string; 
 
     constructor(
         name: string,

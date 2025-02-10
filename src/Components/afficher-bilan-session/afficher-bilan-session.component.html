@@ -2,14 +2,23 @@
     @if(this.session) {
     @if(this.user){
     @if(this.session){
-    <h2>Bilan financier de la session {{ session.name }} du {{session.dateDebut}} au {{session.dateFin}}</h2>
 
+
+    <h2>Bilan financier de la session {{ session.name }} du {{session.dateDebut}} au {{session.dateFin}}</h2>
     <p><strong>Total des frais:</strong> {{ session.TotalSommeFrais }} €</p>
     <p><strong>Total des commissions:</strong> {{ session.TotalSommeComissions }} €</p>
-    <p><strong>Gains:</strong> {{ this.gain  }} €</p>
-    <p><strong>Total de jeu vendu :</strong> {{ this.jeuxVendus  }} </p>
-    <p><strong>Total de jeu en vente :</strong> {{ this.jeuxEnVente  }} </p>
-    <p><strong>Total de jeu :</strong> {{ this.totalJeux  }} </p>
+    <p><strong>Gains:</strong> {{ this.gain }} €</p>
+    <p><strong>Total de jeu vendu :</strong> {{ this.jeuxVendus }} </p>
+    <p><strong>Total de jeu en vente :</strong> {{ this.jeuxEnVente }} </p>
+    <p><strong>Total de jeu :</strong> {{ this.totalJeux }} </p>
+
+    @if(this.sessionService.IsOpen(session)){
+    <button (click)="dlPDF(session.id)">Telecharger le bilan</button>
+    } @else {
+    <p>Le bilan n'est pas téléchargeable car la session est fermée</p>
+    }
+
+
 
     }
     }

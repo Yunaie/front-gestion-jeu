@@ -12,19 +12,17 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Session } from '../../Models/Session';
 import { SessionService } from '../../Services/SessionService';
 
-@Component({
-  selector: 'app-accueil-user',
-  standalone: true,
-  imports: [RouterOutlet, CommonModule, ReactiveFormsModule, RouterLink, RouterLinkActive],
-  templateUrl: './accueil-user.component.html',
-  styleUrl: './accueil-user.component.css'
-})
-export class AccueilUserComponent {
 
-  title = 'front-awi';
+@Component({
+  selector: 'app-choix-admin',
+  standalone: true,
+  imports: [],
+  templateUrl: './choix-admin.component.html',
+  styleUrl: './choix-admin.component.css'
+})
+export class ChoixAdminComponent {
   sessionChose!: Session | null;
   user: User | null = null;
-
 
   constructor(
     private router: Router,
@@ -34,8 +32,6 @@ export class AccueilUserComponent {
     private route: ActivatedRoute,
     private sessionService: SessionService,
   ) { }
-
-
 
   ngOnInit() {
     this.userService.getFireBaseUser().subscribe(userData => {
@@ -49,35 +45,14 @@ export class AccueilUserComponent {
 
     this.sessionChose = this.sessionService.getCurrentSession();
   }
-
-  isAdmin(user: User): boolean {
-    return this.userService.IsAdmin(user)
-  }
-
-  redirectToLogin() {
-    this.router.navigate(['/loginVendeur'], { queryParams: { redirectRoute: '/infosVendeur' } });
-  }
-
-  redirectToAchatInfos() {
-     this.router.navigate(['/afficherAchat'],);
-  }
-
-  redirectToListeJeux() {
-    this.router.navigate(['/ListeJeux'],);
- }
-
   
-
-
-  redirectToAchat() {
-    this.router.navigate(['/achat'],);
+  printSession() {
+    this.router.navigate(['/admin-session']);
+ 
   }
 
-  redirectToRegister() {
-    this.router.navigate(['/registerVendeur']);
-  }
-
-  redirectToAdmin() {
-    this.router.navigate(['/admin-choix']);
+  printAdmin() {
+    this.router.navigate(['/admin-admin']);
+ 
   }
 }

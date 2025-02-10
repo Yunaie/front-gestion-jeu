@@ -28,7 +28,8 @@ export class RegisterComponent implements OnInit {
       password: ['', [Validators.required, Validators.minLength(6)]],
       firstname: ['', Validators.required],
       name: ['', Validators.required],
-      tel: ['', Validators.required]
+      tel: ['', [Validators.required, Validators.pattern(/^(0[67])\d{8}$/)]]
+
     });
   }
 

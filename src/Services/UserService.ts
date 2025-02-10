@@ -85,6 +85,30 @@ export class UserService {
     return (user.role == UserRole.Admin)
   }
 
+  
+
+  getUserByEmailAndPhone(email: string, phone: string): Observable<User | undefined> {
+    return this.firestore.collection<User>('UsersGestion', ref =>
+      ref.where('email', '==', email).where('phone', '==', phone)
+    ).valueChanges().pipe(
+      map(users => {
+        return users.length > 0 ? users[0] : undefined;
+      })
+    );
+  }
+
+  async updateUserRole(userId: string, newRole: UserRole): Promise<void> {
+    try {
+      await this.firestore.collection('UsersGestion').doc(userId).update({ role: newRole });
+      console.log(`✅ Le rôle de l'utilisateur ${userId} a été mis à jour en ${newRole}`);
+    } catch (error) {
+      console.error("❌ Erreur lors de la mise à jour du rôle :", error);
+      throw error;
+    }
+  }
+
+  
+
 
 
   //--------------------------- VENDEUR -------------------------------------
@@ -145,7 +169,7 @@ export class UserService {
   }
 
 
-  createVendeur(totalFrais: number, totalGain: number, email: string, firstname: string, phone: string, name: string, fraisApayer: number, gain: number): Promise<any> {
+  createVendeur(totalFrais: number, totalGain: number, email: string,idSession:string, firstname: string, phone: string, name: string, fraisApayer: number, gain: number): Promise<any> {
     const docRef = this.firestore.collection('UserVendeur').doc();
     const id = docRef.ref.id;
 
@@ -155,6 +179,7 @@ export class UserService {
       email: email,
       phone: phone,
       id: id,
+      idSession:idSession,
       fraisApayer: fraisApayer,
       gain: gain,
       totalGain: totalGain,
@@ -235,6 +260,9 @@ export class UserService {
       })
     );
   }
+
+  
+
 
   validateEmail(email: string): boolean {
     const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
