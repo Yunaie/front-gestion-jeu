@@ -1,23 +1,21 @@
-a
-:root {
-    --background-color: #ffffff;
-    --text-color: #000000;
-    --card-bg: #f5f5f5;
-}
-
-.dark-theme {
-    --background-color: #121212;
-    --text-color: #ffffff;
-    --card-bg: #1e1e1e;
-}
 
 body {
-    background-color: var(--background-color);
-    color: var(--text-color);
+    --background-color: #0E2438;
+    --text-color: #000000;
+    --card-bg: red;
+    
+    background-color: var(--background-color); /* Applique la couleur de fond */
+    color: var(--text-color); /* Applique la couleur du texte */
+    
     transition: background-color 0.3s ease, color 0.3s ease;
 }
-
+ul, ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
 .card {
+    --card-bg:green;
     background-color: var(--card-bg);
     padding: 20px;
     border-radius: 8px;

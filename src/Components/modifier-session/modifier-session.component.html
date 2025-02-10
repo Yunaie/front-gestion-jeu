@@ -1,8 +1,11 @@
-<div>
+<div class="my-component">
   @if(this.user) {
   @if(this.isAdmin(this.user)) {
     @if(this.session){
       <div>
+
+      <h2>Infos Session</h2>
+
         <p><strong>Nom :</strong>
           <span *ngIf="!isFieldEditable(session, 'name')">{{ session.name }}</span>
           <input *ngIf="isFieldEditable(session, 'name')" [(ngModel)]="session.name" />

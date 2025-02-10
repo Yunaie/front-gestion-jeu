@@ -1,21 +1,25 @@
-.app-container {
-    font-family: Arial, sans-serif;
-    max-width: 800px;
-    margin: 0 auto;
-    text-align: center;
-  }
-  
+.my-component {
+  font-family: Arial, sans-serif;
+  width: 100%; 
+  max-width: 65%; 
+  margin: 0 auto;
+  text-align: center;
+}
+
   header h1 {
+    color:  #D9D9D9;
     padding: 20px;
     font-size: 36px;
   }
   
-  section h2 {
-    color: #333;
+   h2 {
+    color: #D9D9D9;
     margin: 20px 0;
   }
   
-  ul {
+
+
+  ul {  
     list-style-type: none;
     padding: 0;
   }
@@ -25,13 +29,13 @@
   }
   
   ul li button {
-    width: 100%;
+    width: 20%;
     padding: 20px;
-    font-size: 24px;
-    background-color:grey;
-    color: white;
+    font-size: 18px;
+    color: #0E2438;
     border: none;
-    border-radius: 10px;
+    border-radius: 15px;
+    background-color:  #D9D9D9;
     cursor: pointer;
     transition: background-color 0.3s ease;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -42,8 +46,8 @@
   }
   
   ul li button:active {
-    background-color: grey;
+    background-color:  #D9D9D9;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transform: scale(0.98);
   }
-  
+   

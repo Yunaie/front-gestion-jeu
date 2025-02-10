@@ -1,0 +1,51 @@
+.my-component {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+div {
+  margin-bottom: 15px;
+}
+
+label {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+select, input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  width: 100%;
+  max-width: 250px;
+  text-align: center;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield; /* Pour enlever les flèches sur Firefox */
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none; /* Pour enlever les flèches sur Chrome/Safari */
+  margin: 0;
+}
+
+app-afficher-jeu {
+  display: block;
+  margin: 15px auto;
+  padding: 10px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 550px;
+}

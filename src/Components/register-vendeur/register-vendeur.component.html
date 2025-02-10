@@ -1,9 +1,9 @@
-<div>
+<div class="my-component">
     @if(this.session && this.user) {
       <h1>Register Vendeur</h1>
       <h2>Vous avez choisi la session {{ session.name }} : {{ session.dateDebut }} - {{ session.dateFin }}</h2>
   
-      <form [formGroup]="registerVendeur" (ngSubmit)="register()">
+      <form [formGroup]="registerVendeur" (ngSubmit)="register()" class="form">
         <label>Email:</label>
         <input type="email" formControlName="email" required>
   
@@ -17,10 +17,12 @@
         <input type="text" formControlName="phone" required>
   
         <br><br>
-        <button type="submit" [disabled]="!registerVendeur.valid">Enregistrer le vendeur</button>
+        <button class="btn" type="submit" [disabled]="!registerVendeur.valid">Enregistrer le vendeur</button>
+        <button  class="btn" (click)="redirectToLogin()">Le vendeur a déjà un compte ?</button>
+      
       </form>
   
-      <button (click)="redirectToLogin()">Le vendeur a déjà un compte ?</button>
+      
     } @else if(this.user) {
       <p>Vous devez choisir une session</p>
     } @else {

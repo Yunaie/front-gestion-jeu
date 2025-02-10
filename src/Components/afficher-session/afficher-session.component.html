@@ -1,24 +1,25 @@
-<div>
-  @if(this.user) {
-  @if(this.isAdmin(this.user)) {
+  <div class="my-component" >
+    @if(this.user) {
+    @if(this.isAdmin(this.user)) {
 
-  @if(this.session){
-  <button (click)="redirectToSessionPage()">
+    @if(this.session){
+    <button (click)="redirectToSessionPage()">
 
-    <p><strong>Nom :</strong>{{ session.name }}</p>
 
-    <p><strong>Date début :</strong>{{ session.dateDebut }} </p>
+      <p><strong>Nom :</strong>{{ session.name }}</p>
 
-    <p><strong>Date Fin :</strong>{{ session.dateFin }} </p>
+      <p><strong>Date début :</strong>{{ session.dateDebut }} </p>
 
-    <p><strong>Statut :</strong>{{ session.statut }}</p>
+      <p><strong>Date Fin :</strong>{{ session.dateFin }} </p>
 
-  </button>
-  }
-  } @else if ( !this.isAdmin(this.user)) {
-  <p>Vous n'êtes pas admin</p>
-  }}
-  @else {
-  <p>Vous devez être connecté</p>
-  }
-</div>
+      <p><strong>Statut :</strong>{{ session.statut }}</p>
+
+    </button>
+    }
+    } @else if ( !this.isAdmin(this.user)) {
+    <p>Vous n'êtes pas admin</p>
+    }}
+    @else {
+    <p>Vous devez être connecté</p>
+    }
+  </div>

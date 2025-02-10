@@ -1,4 +1,4 @@
-import { Component, Renderer2, Input, OnInit } from '@angular/core';
+import { Component, HostListener,Renderer2, Input, OnInit } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../Services/authService';
 import { CommonModule } from '@angular/common';
@@ -39,17 +39,18 @@ export class RootComponent implements OnInit {
         });
     }
 
-    toggleTheme() {
-        this.darkMode = !this.darkMode;
-
-        if (this.darkMode) {
-            this.renderer.addClass(document.body, 'dark-theme');
-            localStorage.setItem('theme', 'dark'); 
-        } else {
-            this.renderer.removeClass(document.body, 'dark-theme');
-            localStorage.setItem('theme', 'light');
-        }
+    @HostListener('window:scroll', ['$event'])
+    onScroll() {
+      const scrollTop = window.scrollY;
+      const newSize = 100 + scrollTop / 10; // Ajuste ce facteur selon l'effet voulu
+  
+      const backgroundElement = document.querySelector('.my-component') as HTMLElement;
+  
+      if (backgroundElement) {
+        backgroundElement.style.backgroundSize = `${newSize}%`;
+      }
     }
+
 
     logout() {
         this.auth.logout();

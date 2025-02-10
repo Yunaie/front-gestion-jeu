@@ -1,10 +1,10 @@
-<div>
+<div class="my-component">
     @if(this.Admin) {
     @if(this.isAdmin(this.Admin)) {
     @if(afficherFrom) {
     <app-ajt-session [listeSession]="listeSession"></app-ajt-session>
     } @else {
-    <button (click)="afficherForm()">Ajouter un form</button>
+    <button class= "ajtform" (click)="afficherForm()">Ajouter un form</button>
     }
     @if(listeSession && listeSession.length > 0) {
     <ul>

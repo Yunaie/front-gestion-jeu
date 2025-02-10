@@ -1,0 +1,76 @@
+.my-component {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  color: #1D8743;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+h2 {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+}
+
+label {
+  font-weight: bold;
+  text-align: left;
+  width: 100%;
+  max-width: 300px;
+  display: block;
+}
+
+input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  width: 100%;
+  max-width: 300px;
+  text-align: center;
+}
+
+button {
+  padding: 10px;
+  background-color: #1D8743;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+  width: 100%;
+  max-width: 300px;
+}
+
+button:hover {
+  background-color: #166334;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+p {
+  color: #D9534F;
+  font-weight: bold;
+  margin-top: 10px;
+}

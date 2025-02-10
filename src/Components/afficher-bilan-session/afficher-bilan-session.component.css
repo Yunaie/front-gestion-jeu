@@ -1,0 +1,40 @@
+.my-component {
+  font-family: Arial, sans-serif;
+  width: 100%; 
+  margin: 0 auto;
+  text-align: center;
+}
+  
+    
+    header h1 {
+      padding: 20px;
+      font-size: 36px;
+    }
+    
+    section h2 {
+      color: #333;
+      margin: 20px 0;
+    }
+   
+    button {
+      width: 100%;  
+      padding: 10px;
+      margin-top: 10px;
+      background: #0E2438;
+      color:white;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s ease-in-out;
+    }
+    
+    button:hover {
+      background: #16632e;
+    }
+    
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+     
