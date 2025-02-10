@@ -39,17 +39,9 @@ export class RootComponent implements OnInit {
         });
     }
 
-    @HostListener('window:scroll', ['$event'])
-    onScroll() {
-      const scrollTop = window.scrollY;
-      const newSize = 100 + scrollTop / 10; // Ajuste ce facteur selon l'effet voulu
-  
-      const backgroundElement = document.querySelector('.my-component') as HTMLElement;
-  
-      if (backgroundElement) {
-        backgroundElement.style.backgroundSize = `${newSize}%`;
-      }
-    }
+    
+    
+    
 
 
     logout() {

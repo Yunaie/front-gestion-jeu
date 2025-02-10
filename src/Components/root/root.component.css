@@ -74,11 +74,14 @@
 
   .sidebar {
     flex: 0 0 15vh;
-    width: 100vw;
+    width: 95vw;
     position: relative;
     text-align: center;
-  }
-
+    overflow-y: auto; 
+    max-height: 100vh; 
+    scrollbar-width:auto; 
+    align-items: stretch;
+}
 
 
   .router-wrapper {
