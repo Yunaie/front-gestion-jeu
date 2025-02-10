@@ -10,8 +10,8 @@ import { SessionService } from '../../Services/SessionService';
     selector: 'root',
     standalone: true,
     imports: [RouterOutlet, RouterLink, RouterLinkActive, CommonModule],
-    templateUrl: './Root.component.html',
-    styleUrl: './Root.component.css'
+    templateUrl: './root.component.html',
+    styleUrl: './root.component.css'
 })
 
 

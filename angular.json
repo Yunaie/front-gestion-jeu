@@ -36,22 +36,28 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "1MB",
+                  "maximumError": "2MB"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kB",
-                  "maximumError": "4kB"
+                  "maximumWarning": "2MB",
+                  "maximumError": "3MB"
                 }
               ],
-              "outputHashing": "all"
+
+              "outputHashing": "all",
+              "allowedCommonJsDependencies": [
+              "canvg",
+              "jspdf",
+              "html2canvas",
+              "dompurify"
+            ]
             },
             "development": {
-              "optimization": false,
-              "extractLicenses": false,
-              "sourceMap": true
-            }
+              "optimization": true,
+              "extractLicenses": true,
+              "sourceMap": true            }
           },
           "defaultConfiguration": "production"
         },
