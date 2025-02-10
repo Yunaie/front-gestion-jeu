@@ -19,6 +19,7 @@ export class ModifierSessionComponent implements OnInit {
   public sessionId: string | null = null;
   session: Session | null = null;
   errorMessage: string = "";
+  
   private editingSessions: { [id: string]: boolean } = {};
   user!: User | null;
   constructor(public sessionService: SessionService, private userService: UserService, private route: ActivatedRoute) { }

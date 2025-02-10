@@ -28,4 +28,85 @@ strong {
   color: #1D8743;
 }
 
+/* Bouton "Éditer" */
+.edit-btn {
+  padding: 10px;
+  background-color: #007BFF;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+  width: 100%;
+  max-width: 300px;
+  margin: 15px auto;
+  display: block;
+}
 
+.edit-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Formulaire d'édition */
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  margin-top: 15px;
+}
+
+label {
+  font-weight: bold;
+  text-align: left;
+  width: 100%;
+  max-width: 300px;
+  display: block;
+}
+
+input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  width: 100%;
+  max-width: 300px;
+  text-align: center;
+}
+
+button {
+  padding: 10px;
+  background-color: #1D8743;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+  width: 100%;
+  max-width: 300px;
+  margin-top: 10px;
+}
+
+button:hover {
+  background-color: #166334;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Messages de succès et d'erreur */
+.success-message {
+  color: #28a745;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.error-message {
+  color: #D9534F;
+  font-weight: bold;
+  margin-top: 10px;
+}

@@ -82,3 +82,10 @@ button:disabled {
 button:hover:not(:disabled) {
     background: #1D8743;
 }
+
+
+p {
+  color: #D9534F;
+  font-weight: bold;
+  margin-top: 10px;
+}

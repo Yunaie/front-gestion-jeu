@@ -49,3 +49,10 @@ ul li button{
   justify-content: center;
 }
 
+
+
+p {
+  color: #D9534F;
+  font-weight: bold;
+  margin-top: 10px;
+}

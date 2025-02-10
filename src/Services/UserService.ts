@@ -107,6 +107,21 @@ export class UserService {
     }
   }
 
+
+   modifyUser(id: string, updatedUser: Partial<User>) {
+          return this.firestore
+              .collection("UsersGestion")
+              .doc(id)
+              .update(updatedUser)
+              .then(() => {
+                  console.log('User modifiée avec succès');
+              })
+              .catch((error) => {
+                  console.error('Erreur lors de la modification du user :', error);
+              });
+      } 
+  
+
   
 
 

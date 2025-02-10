@@ -1,11 +1,38 @@
-<div class="my-component" >
-   @if(this.user){
-    <h1>Dashboard</h1>
-        <p><strong>Email de l'utilisateur :</strong> {{ user.email }}</p>
-        <p><strong>Nom de l'utilisateur :</strong> {{ user.name }}</p>
-        <p><strong>Prénom de l'utilisateur :</strong> {{ user.firstname }}</p>
-        <p><strong>Téléphone de l'utilisateur :</strong> {{ user.phone }}</p>
+<div class="my-component">
+   @if(this.user) {
+     <h1>Dashboard</h1>
+ 
+     <p><strong>Email de l'utilisateur :</strong> {{ user.email }}</p>
+     <p><strong>Rôle :</strong> {{ user.role }}</p>
+     <p><strong>Téléphone :</strong> {{ user.phone }}</p>
+     <p><strong>Nom :</strong> {{ user.name }}</p>
+     <p><strong>Prénom :</strong> {{ user.firstname }}</p>
+ 
+     <button class="edit-btn" (click)="toggleEdit()">
+       {{ isEditing ? "Annuler" : "Éditer les informations" }}
+     </button>
+ 
+     <form *ngIf="isEditing" [formGroup]="editUserForm" (ngSubmit)="updateUser()" class="edit-form">
+       <label for="name">Nom :</label>
+       <input id="name" type="text" formControlName="name">
+       <small *ngIf="editUserForm.get('name')?.invalid && editUserForm.get('name')?.touched">
+         Le nom est requis.
+       </small>
+ 
+       <label for="firstname">Prénom :</label>
+       <input id="firstname" type="text" formControlName="firstname">
+       <small *ngIf="editUserForm.get('firstname')?.invalid && editUserForm.get('firstname')?.touched">
+         Le prénom est requis.
+       </small>
+ 
+       <button type="submit" [disabled]="editUserForm.invalid">Mettre à jour</button>
+     </form>
+ 
+     <p class="success-message" *ngIf="successMessage">{{ successMessage }}</p>
+     <p class="error-message" *ngIf="errorMessage">{{ errorMessage }}</p>
+ 
    } @else {
-    <p>Veuillez vous connecter</p>
+     <p>Veuillez vous connecter</p>
    }
-</div>
+ </div>
+ 
