@@ -20,6 +20,8 @@
     <input id="maxPrice" type="number" [(ngModel)]="maxPrice" (input)="onFilterChange()" />
   </div>
   <app-afficher-jeu [listeJeu]="filteredGames"></app-afficher-jeu>
+  <button (click)="downloadCSV()">Télécharger CSV</button>
+
   } @else if(this.user) {
   <p>Vous devez choisir une session</p>
   } @else{

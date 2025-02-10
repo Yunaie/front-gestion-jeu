@@ -11,7 +11,6 @@ export enum EtatRole {
   }
 
 export class GameDeposit {
-    [x: string]: any;
     public id: string;
     public name: string;
     public editeur: string;

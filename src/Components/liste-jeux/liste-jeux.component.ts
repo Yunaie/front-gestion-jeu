@@ -11,7 +11,7 @@ import { UserService } from '../../Services/UserService';
 @Component({
   selector: 'app-liste-jeux',
   standalone: true,
-  imports: [AfficherJeuComponent,FormsModule],
+  imports: [AfficherJeuComponent, FormsModule],
   templateUrl: './liste-jeux.component.html',
   styleUrls: ['./liste-jeux.component.css']
 })
@@ -21,10 +21,10 @@ export class ListeJeuxComponent implements OnInit {
   statutFilter: string = ''; 
   minPrice: number = 0; 
   maxPrice: number = 1000; 
-  session : Session | null = null;
+  session: Session | null = null;
   user: User | null = null;
   
-  constructor(private jeuDeposeService: JeuDeposeService,private sessionService : SessionService, private userService: UserService, private gameService: JeuDeposeService) {}
+  constructor(private jeuDeposeService: JeuDeposeService, private sessionService: SessionService, private userService: UserService) {}
 
   ngOnInit(): void {
     this.session = this.sessionService.getCurrentSession();
@@ -47,14 +47,34 @@ export class ListeJeuxComponent implements OnInit {
   applyFilters(): void {
     this.filteredGames = this.games.filter(game => {
       const matchStatut = this.statutFilter ? game.statut === this.statutFilter : true;
-      
       const matchPrice = game.prix >= this.minPrice && game.prix <= this.maxPrice;
-
       return matchStatut && matchPrice;
     });
   }
 
   onFilterChange(): void {
     this.applyFilters();
+  }
+
+  downloadCSV(): void {
+    const headers = ["ID", "Nom du Jeu", "Statut", "Prix"];
+    const rows = this.filteredGames.map(game => [
+      game.id, 
+      game.name,
+      game.editeur,
+      game.etat, 
+      game.statut, 
+      game.prix
+    ]);
+
+    const csvContent = [headers, ...rows].map(e => e.join(",")).join("\n");
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    link.href = url;
+    link.setAttribute("download", "jeux_filtrés.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 }

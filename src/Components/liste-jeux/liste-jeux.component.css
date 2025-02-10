@@ -8,7 +8,30 @@
   border-radius: 10px;
   background-color: #f9f9f9;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-} 
+}
+
+button {
+  padding: 10px;
+  background-color: #1D8743;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+  width: 100%;
+  max-width: 300px;
+}
+
+button:hover {
+  background-color: #166334;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
 
 div {
   margin-bottom: 15px;
