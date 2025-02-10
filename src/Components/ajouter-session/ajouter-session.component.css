@@ -1,7 +1,6 @@
 .my-component {
   font-family: Arial, sans-serif;
   width: 100%; 
-  max-width: 65%; 
   margin: 0 auto;
   text-align: center;
 }
